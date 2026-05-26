@@ -48,6 +48,15 @@ type Config struct {
 
 	// Optional function for dialing out
 	Dial func(ctx context.Context, network, addr string) (net.Conn, error)
+
+	// LocalAddr specifies the local address to bind to when making outbound
+	// connections (CONNECT command). This is useful for selecting a specific
+	// network interface or source IP for outgoing traffic.
+	// Format: "host:port" (e.g., "192.168.1.100:0" or "10.0.0.1:10800")
+	// The port can be "0" to let the OS assign one.
+	// If empty (default), the OS chooses the local address.
+	// Note: only used when no custom Dial function is provided.
+	LocalAddr string
 }
 
 // Server is reponsible for accepting connections and handling

@@ -171,7 +171,15 @@ func (s *Server) handleConnect(ctx context.Context, conn conn, req *Request) err
 	dial := s.config.Dial
 	if dial == nil {
 		dial = func(ctx context.Context, net_, addr string) (net.Conn, error) {
-			return net.Dial(net_, addr)
+			d := &net.Dialer{}
+			if s.config.LocalAddr != "" {
+				localAddr, err := net.ResolveTCPAddr("tcp", s.config.LocalAddr)
+				if err != nil {
+					return nil, fmt.Errorf("failed to resolve local address '%s': %v", s.config.LocalAddr, err)
+				}
+				d.LocalAddr = localAddr
+			}
+			return d.DialContext(ctx, net_, addr)
 		}
 	}
 	target, err := dial(ctx, "tcp", req.realDestAddr.Address())

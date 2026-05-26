@@ -1,0 +1,26 @@
+{
+  "listen": "127.0.0.1:8001",
+
+  "auth": {
+    "method": "password",
+    "credentials": {
+      "alice": "secret123",
+      "bob":   "pass456"
+    }
+  },
+
+  "bind_ip": "0.0.0.0",
+
+  "local_addr": "",
+
+  "rules": {
+    "allow_connect":   true,
+    "allow_bind":      false,
+    "allow_associate": false
+  },
+
+  "log": {
+    "file":   "",
+    "prefix": "[SOCKS5] "
+  }
+}
